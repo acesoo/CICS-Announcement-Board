@@ -1,0 +1,181 @@
+/* src/components/DocumentCard.css */
+.doc-card {
+  padding: 1.25rem;
+  cursor: default;
+  transition: all 0.18s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.doc-card:hover {
+  border-color: var(--cics-blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.doc-card:hover .doc-hover-overlay { opacity: 1; }
+
+/* Hidden state — muted appearance for admin */
+.doc-card.doc-hidden {
+  opacity: 0.6;
+  border-style: dashed;
+}
+.doc-card.doc-hidden:hover {
+  opacity: 0.85;
+}
+
+/* Hidden banner */
+.hidden-banner {
+  background: #FAEEDA;
+  color: var(--warning);
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 4px 10px; border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* Student hover overlay */
+.doc-hover-overlay {
+  position: absolute; inset: 0;
+  background: rgba(10, 61, 143, 0.88);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  opacity: 0; transition: opacity 0.2s ease;
+  border-radius: var(--radius-lg);
+  color: white; font-size: 14px; font-weight: 500;
+  cursor: pointer;
+}
+
+.doc-badge { margin-bottom: 0.75rem; }
+
+.doc-title {
+  font-size: 14px; font-weight: 600;
+  color: var(--text-primary); line-height: 1.45;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.doc-meta {
+  font-size: 11px; color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.doc-meta span { margin-right: 4px; }
+
+.doc-tags {
+  display: flex; flex-wrap: wrap; gap: 4px;
+  margin-bottom: 10px;
+}
+.doc-tag {
+  font-size: 11px; color: var(--text-secondary);
+  background: var(--surface-3); border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.doc-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 10px; border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+.prog-pill {
+  font-size: 11px; font-weight: 600;
+  background: var(--surface-3); color: var(--text-secondary);
+  padding: 3px 9px; border-radius: 20px;
+}
+
+.doc-actions {
+  display: flex; gap: 5px; align-items: center;
+}
+
+/* Base button */
+.dl-btn {
+  width: 30px; height: 30px; border-radius: 8px;
+  border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+  position: relative; z-index: 10;
+}
+
+/* Student — Download (blue) */
+.download-btn { background: var(--cics-blue); }
+.download-btn:hover {
+  background: #0D2D6B;
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(10,61,143,0.4);
+}
+.download-btn::after {
+  content: 'Download';
+  position: absolute; bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #0D2D6B; color: white;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px; border-radius: 4px;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none;
+}
+.download-btn:hover::after { opacity: 1; }
+
+/* Student — Open (gold) */
+.open-btn { background: var(--cics-gold-dark); }
+.open-btn:hover {
+  background: #7A5C0A;
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(168,124,16,0.4);
+}
+.open-btn::after {
+  content: 'Open';
+  position: absolute; bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #7A5C0A; color: white;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px; border-radius: 4px;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none;
+}
+.open-btn:hover::after { opacity: 1; }
+
+/* Admin — Hide/Show (teal) */
+.hide-btn { background: #0F6E56; }
+.hide-btn:hover {
+  background: #085041;
+  transform: scale(1.1);
+}
+.hide-btn::after {
+  content: 'Hide';
+  position: absolute; bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #085041; color: white;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px; border-radius: 4px;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none;
+}
+.hide-btn:hover::after { opacity: 1; }
+
+/* When already hidden — show "Show" tooltip */
+.hide-btn.hidden-active { background: #854F0B; }
+.hide-btn.hidden-active:hover { background: #633806; }
+.hide-btn.hidden-active::after { content: 'Show'; background: #633806; }
+
+/* Admin — Delete (red) */
+.delete-btn { background: #A32D2D; }
+.delete-btn:hover {
+  background: #7A1F1F;
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(163,45,45,0.4);
+}
+.delete-btn::after {
+  content: 'Delete';
+  position: absolute; bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #7A1F1F; color: white;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 8px; border-radius: 4px;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 0.15s; pointer-events: none;
+}
+.delete-btn:hover::after { opacity: 1; }
