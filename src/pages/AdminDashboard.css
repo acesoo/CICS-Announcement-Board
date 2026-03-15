@@ -15,6 +15,7 @@
 .period-tabs {
   display: flex; gap: 4px;
   background: var(--surface-3); border-radius: 10px; padding: 3px;
+  flex-wrap: wrap;
 }
 .tab-btn {
   padding: 6px 14px; border-radius: 8px;
@@ -27,6 +28,7 @@
 
 .datepicker-row { margin-bottom: 1.25rem; }
 
+/* Stats grid — 4 columns on desktop, 2 on tablet/mobile */
 .stats-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -48,15 +50,16 @@
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 0.8rem;
 }
-.stat-val   { font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.1; }
+.stat-val   { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1.1; }
 .stat-label { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
 .stat-change      { font-size: 12px; margin-top: 6px; font-weight: 500; }
 .stat-change.up   { color: var(--success); }
 .stat-change.warn { color: var(--warning); }
 
+/* Chart + trending — side by side on desktop, stacked on mobile */
 .content-grid {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr 300px;
   gap: 16px; margin-bottom: 2rem;
 }
 .chart-card, .trending-card { padding: 1.5rem; }
@@ -90,13 +93,21 @@
 .loading-row { display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 14px; padding: 2rem 0; }
 .empty-state { text-align: center; color: var(--text-muted); padding: 1.5rem 0; font-size: 15px; }
 
-@media (max-width: 1200px) { .content-grid { grid-template-columns: 1fr 280px; } }
-@media (max-width: 1024px) {
-  .stats-row { grid-template-columns: 1fr 1fr; }
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 1100px) {
+  .content-grid { grid-template-columns: 1fr 260px; }
+}
+@media (max-width: 900px) {
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
   .content-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
-  .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-val { font-size: 22px; }
   .dash-topbar { flex-direction: column; }
-  .period-tabs { flex-wrap: wrap; }
+  .period-tabs { width: 100%; justify-content: center; }
+  .tab-btn { padding: 5px 10px; font-size: 12px; }
+}
+@media (max-width: 380px) {
+  .stats-row { grid-template-columns: 1fr; }
 }

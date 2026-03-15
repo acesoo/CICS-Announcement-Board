@@ -4,7 +4,7 @@
   min-height: 100vh;
 }
 
-/* ── Sidebar ──────────────────────────────────────── */
+/* ── Sidebar — desktop only by default ───────────── */
 .sidebar {
   width: 240px;
   min-height: 100vh;
@@ -15,6 +15,7 @@
   position: fixed;
   left: 0; top: 0; bottom: 0;
   z-index: 100;
+  overflow-y: auto;
   transition: transform 0.25s ease;
 }
 
@@ -25,6 +26,7 @@
   padding: 0 1.5rem 1.5rem;
   border-bottom: 1px solid rgba(255,255,255,0.12);
   margin-bottom: 1.25rem;
+  flex-shrink: 0;
 }
 .neu-logo {
   width: 42px; height: 42px;
@@ -39,7 +41,6 @@
   color: rgba(255,255,255,0.4); text-transform: uppercase;
   padding: 0 0.75rem; margin-bottom: 6px; margin-top: 1.25rem;
 }
-.nav-section-label:first-child { margin-top: 0; }
 
 .sidebar-nav {
   flex: 1; padding: 0 0.75rem;
@@ -61,7 +62,7 @@
 .sidebar-footer {
   padding: 1.25rem 1rem 0.5rem;
   border-top: 1px solid rgba(255,255,255,0.12);
-  margin-top: auto;
+  margin-top: auto; flex-shrink: 0;
 }
 .user-chip {
   display: flex; align-items: center; gap: 10px;
@@ -78,38 +79,48 @@
   font-size: 13px; font-weight: 700; color: var(--cics-blue);
   flex-shrink: 0;
 }
-.user-info .u-name { font-size: 13px; font-weight: 500; color: white; }
+.user-info .u-name {
+  font-size: 13px; font-weight: 500; color: white;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 .user-info .u-role { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
 .logout-btn {
   display: flex; align-items: center; gap: 6px;
   width: 100%; padding: 7px 10px; border-radius: var(--radius-md);
   color: rgba(255,255,255,0.55);
   font-size: 13px; border: none; background: none;
-  transition: all 0.15s; margin-top: 6px;
+  transition: all 0.15s; margin-top: 6px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
 }
 .logout-btn:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.08); }
 
-/* ── Main content — full width, no max-width ──────── */
+/* ── Main content ─────────────────────────────────── */
 .main-content {
   margin-left: 240px;
   flex: 1;
   min-height: 100vh;
   padding: 2rem 2.5rem;
   background: var(--surface-2);
-  width: calc(100% - 240px);
   box-sizing: border-box;
 }
 
-/* ── Mobile ───────────────────────────────────────── */
+/* ── Mobile header — hidden on desktop ───────────── */
 .mobile-header {
   display: none;
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
   background: var(--cics-blue);
-  position: sticky; top: 0; z-index: 90;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
-.mobile-logo-row { display: flex; align-items: center; gap: 8px; }
+.mobile-logo-row {
+  display: flex; align-items: center; gap: 8px;
+  flex: 1; justify-content: center;
+}
 .mobile-neu-logo {
   width: 28px; height: 28px; border-radius: 50%;
   object-fit: cover; border: 1.5px solid rgba(255,255,255,0.4);
@@ -120,39 +131,84 @@
   background: var(--cics-gold);
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; font-weight: 700; color: var(--cics-blue);
+  flex-shrink: 0;
 }
-.icon-btn { background: none; border: none; color: white; display: flex; padding: 4px; }
+.icon-btn {
+  background: none; border: none; color: white;
+  display: flex; padding: 4px; cursor: pointer; flex-shrink: 0;
+}
 
+/* ── Overlay ──────────────────────────────────────── */
 .overlay {
+  position: fixed; inset: 0; z-index: 150;
+  background: rgba(0,0,0,0.55);
   display: none;
-  position: fixed; inset: 0; z-index: 98;
-  background: rgba(0,0,0,0.45);
 }
+.overlay.open { display: block; }
 
+/* ── Bottom nav — hidden on desktop ──────────────── */
 .bottom-nav {
   display: none;
   position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
-  background: var(--surface); border-top: 1px solid var(--border);
-  padding: 8px 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
 }
 .bottom-item {
   display: flex; flex-direction: column; align-items: center; gap: 3px;
-  padding: 6px 20px; flex: 1;
-  color: var(--text-muted); font-size: 11px; text-decoration: none;
+  padding: 4px 8px; flex: 1;
+  color: var(--text-muted); font-size: 10px; text-decoration: none;
   transition: color 0.15s;
 }
 .bottom-item.active { color: var(--cics-blue); }
 .bottom-item svg { width: 20px; height: 20px; }
 
+/* ════════════════════════════════════════════════════
+   MOBILE — max-width 768px
+   Sidebar is COMPLETELY HIDDEN until hamburger is tapped
+   ════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
-  .sidebar.open { transform: translateX(0); }
-  .overlay { display: block; }
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-    padding: 16px 16px 80px;
+
+  /* Full-width layout — no sidebar margin */
+  .app-shell {
+    flex-direction: column;
   }
-  .mobile-header { display: flex; }
-  .bottom-nav { display: flex; }
+
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 16px 16px 80px 16px;
+  }
+
+  /* Sidebar: hidden off-screen by default */
+  .sidebar {
+    transform: translateX(-100%);
+    z-index: 200;
+    width: 260px;
+  }
+
+  /* Sidebar: visible when .open is added */
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Show mobile header */
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Show bottom nav */
+  .bottom-nav {
+    display: flex;
+  }
+}
+
+/* ── Tablet ───────────────────────────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .main-content {
+    margin-left: 200px;
+    padding: 1.5rem;
+  }
 }
